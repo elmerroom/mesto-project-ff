@@ -4,9 +4,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // подклю�
 // подключите к проекту mini-css-extract-plugin
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+
 module.exports = {
     entry: { 
-      main: './src/index.js' 
+      main: ['./src/scripts/index.js'],
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -49,14 +50,16 @@ module.exports = {
             importLoaders: 1
           }
         },
-         npm install --save-dev html-webpack-inline-style-plugin'postcss-loader'
+         'postcss-loader'
         ]
       },
+  
     ]
   },
   plugins: [
   new HtmlWebpackPlugin({
-    template: './src/index.html' // путь к файлу index.html
+    template: './src/index.html', // путь к файлу index.html
+    // inlineSource: '.(js|css)$' // встраиваем все файлы javascript и css в код
   }),
   new CleanWebpackPlugin(), // использовали плагин
   new MiniCssExtractPlugin(), // подключение плагина для объединения файлов

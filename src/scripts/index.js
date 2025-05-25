@@ -1,33 +1,38 @@
-// @todo: Темплейт карточки
-const cardTemplate = document.querySelector('#card-template').content;
+import '../pages/index.css';
+import {renderCard, createCard, handleDeleteCard, addCard} from '../scripts/cardsCreate.js';
+import { initialCards } from "./cards";
+import { openModal, openImageModal, likeCard, handleFormSubmit, handlePlaceSubmit} from './modal.js';
 
-// @todo: DOM узлы
-const placesList = document.querySelector('.places__list');
 
-// @todo: Функция создания карточки
-function createCard(cardNumber, delateItem) {
-  const card = cardTemplate.querySelector('.places__item').cloneNode(true);
-  card.querySelector('.card__title').textContent = cardNumber.name;
-  card.querySelector('.card__image').src = cardNumber.link;
-  card.querySelector('.card__image').alt = `Пейзах местности ${cardNumber.name}`;
-  card.querySelector('.card__delete-button').addEventListener('click', () => {
-    delateItem(card);
-  });
-  
-  return card
-};
 
-// @todo: Функция удаления карточки
+const popups = document.querySelectorAll('.popup')
 
-function handleDeleteCard(item) {
-  item.remove();
-};
+const popupEdit = document.querySelector('.popup_type_edit');
 
-// @todo: Вывести карточки на страницу
-function renderCard(card) {
-  placesList.append(card)
-};
+const popupNewCard = document.querySelector('.popup_type_new-card');
+
+const addButton = document.querySelector('.profile__add-button');
+
+const editButton = document.querySelector('.profile__edit-button');
+
+const formElement  = document.forms['edit-profile']
+
+const placeForm = document.forms['new-place']
+
+
+
+formElement.addEventListener('submit', handleFormSubmit)
+
+placeForm.addEventListener('submit', handlePlaceSubmit)
+
+addButton.addEventListener('click', () => {
+  openModal(popupNewCard)
+});
+
+editButton.addEventListener('click', () => {
+  openModal(popupEdit)
+})
 
 initialCards.forEach((item) => {
-  renderCard(createCard(item, handleDeleteCard))
+  renderCard(createCard(item, handleDeleteCard, openImageModal, likeCard))
 })
