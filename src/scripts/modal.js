@@ -1,26 +1,33 @@
 import '../pages/index.css';
-import { openPopup, closePopup, resetsEditModal } from './RecurringFunc';
 
 const openModal = function(popup) {
   openPopup(popup);
-  closeModal(popup);
+  handleСloseModal(popup);
 };
 
-function closeModal(item) {
+function closePopup(popup) {
+  popup.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', handleEscape);
+}
+
+function openPopup(popup) {
+  popup.classList.add('popup_is-opened');
+  document.addEventListener('keydown', handleEscape);
+}
+
+function handleСloseModal(item) {
   const button = item.querySelector('.popup__close');
   button.addEventListener('click', () => {
     closePopup(item);
-    resetsEditModal();
   }, {once: true});
-  document.addEventListener('keydown', handleEscape);
-  item.addEventListener('click', closeModalOverlay)
+  
+  item.addEventListener('mousedown', closeModalOverlay)
 }
 
 function closeModalOverlay(item) {
   if (item.target === item.currentTarget) {
-    closePopup(item.currentTarget)
-    resetsEditModal();
-    item.currentTarget.removeEventListener('click', closeModalOverlay)
+    closePopup(item.currentTarget);
+    item.currentTarget.removeEventListener('mousedown', closeModalOverlay)
   };
 }
 
@@ -28,11 +35,9 @@ function handleEscape(item) {
   if (item.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_is-opened');
     if (openedPopup) {
-      closePopup(openedPopup)
-      resetsEditModal();
-      document.removeEventListener('keydown', handleEscape)
+      closePopup(openedPopup);
     }
-  }
-}
+  };
+};
 
-export {openModal, resetsEditModal, closeModal};
+export {openModal, handleСloseModal, closePopup};
