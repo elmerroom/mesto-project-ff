@@ -1,9 +1,10 @@
 import '../pages/index.css';
-import {renderCard, createCard, handleDeleteCard, addCard} from '../scripts/cardsCreate.js';
-import { initialCards } from "./cards";
-import { openModal, openImageModal, likeCard, handleFormSubmit, handlePlaceSubmit} from './modal.js';
+import {createCard} from '../scripts/card.js';
+import { initialCards } from "./cards.js";
+import { openModal, closeModal} from './modal.js';
 
 
+const placesList = document.querySelector('.places__list');
 
 const popups = document.querySelectorAll('.popup')
 
@@ -15,15 +16,47 @@ const addButton = document.querySelector('.profile__add-button');
 
 const editButton = document.querySelector('.profile__edit-button');
 
-const formElement  = document.forms['edit-profile']
+const formElement  = document.forms['edit-profile'];
 
-const placeForm = document.forms['new-place']
+const placeForm = document.forms['new-place'];
 
+const nameInput = formElement.elements.name;
 
+const jobInput = formElement.elements.description;
 
-formElement.addEventListener('submit', handleFormSubmit)
+const placeInput = placeForm.elements['place-name'];
 
-placeForm.addEventListener('submit', handlePlaceSubmit)
+const urlPlaceInput = placeForm.elements.link;
+
+const profileName = document.querySelector('.profile__title');
+
+const profileDescription = document.querySelector('.profile__description');
+
+const popupTypeImage = document.querySelector('.popup_type_image');
+
+const popupImg = popupTypeImage.querySelector('.popup__image');
+
+const popupCaption = popupTypeImage.querySelector('.popup__caption');
+
+function renderCard(card) {
+  placesList.append(card)
+};
+
+function addCard(card) {
+  placesList.prepend(card)
+}
+
+function handleDeleteCard(item) {
+  item.remove();
+};
+
+function likeCard(item) {
+  item.classList.toggle('card__like-button_is-active');
+}
+
+formElement.addEventListener('submit', handleProfileFormSubmit)
+
+placeForm.addEventListener('submit', handlePlaceFormSubmit)
 
 addButton.addEventListener('click', () => {
   openModal(popupNewCard)
@@ -33,6 +66,38 @@ editButton.addEventListener('click', () => {
   openModal(popupEdit)
 })
 
+function openImageModal(name, link) {
+  popupImg.src = link;
+  popupImg.alt = name;
+  popupCaption.textContent = name;
+  
+  openModal(popupTypeImage);
+}
+
 initialCards.forEach((item) => {
   renderCard(createCard(item, handleDeleteCard, openImageModal, likeCard))
 })
+
+function handleProfileFormSubmit(item) {
+    item.preventDefault(); 
+    profileName.textContent = nameInput.value 
+    profileDescription.textContent = jobInput.value
+    const popup = item.target.closest('.popup');
+    popup.classList.remove('popup_is-opened');
+    closeModal(popup)
+}
+
+function handlePlaceFormSubmit(item) {
+    item.preventDefault(); 
+    const placeName = placeInput.value;
+    const placeLink = urlPlaceInput.value;
+    const imgObg = {
+      name: placeName, 
+      link: placeLink
+    };
+    addCard(createCard(imgObg, handleDeleteCard, openImageModal, likeCard))
+    placeForm.reset()
+    const popup = item.target.closest('.popup');
+    popup.classList.remove('popup_is-opened');
+    closeModal(popup)
+}
