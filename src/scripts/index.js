@@ -1,12 +1,11 @@
 import '../pages/index.css';
 import {createCard} from '../scripts/card.js';
 import { initialCards } from "./cards.js";
-import { openModal, closeModal} from './modal.js';
+import { openModal, handleСloseModal, closePopup} from './modal.js';
+import { resetsEditModal } from './RecurringFunc';
 
 
 const placesList = document.querySelector('.places__list');
-
-const popups = document.querySelectorAll('.popup')
 
 const popupEdit = document.querySelector('.popup_type_edit');
 
@@ -39,12 +38,12 @@ const popupImg = popupTypeImage.querySelector('.popup__image');
 const popupCaption = popupTypeImage.querySelector('.popup__caption');
 
 function renderCard(card) {
-  placesList.append(card)
+  placesList.append(card);
 };
 
 function addCard(card) {
-  placesList.prepend(card)
-}
+  placesList.prepend(card);
+};
 
 function handleDeleteCard(item) {
   item.remove();
@@ -52,39 +51,39 @@ function handleDeleteCard(item) {
 
 function likeCard(item) {
   item.classList.toggle('card__like-button_is-active');
-}
+};
 
-formElement.addEventListener('submit', handleProfileFormSubmit)
+formElement.addEventListener('submit', handleProfileFormSubmit);
 
-placeForm.addEventListener('submit', handlePlaceFormSubmit)
+placeForm.addEventListener('submit', handlePlaceFormSubmit);
 
 addButton.addEventListener('click', () => {
-  openModal(popupNewCard)
+  openModal(popupNewCard);
 });
 
 editButton.addEventListener('click', () => {
-  openModal(popupEdit)
-})
+  resetsEditModal();
+  openModal(popupEdit);
+});
 
 function openImageModal(name, link) {
   popupImg.src = link;
   popupImg.alt = name;
   popupCaption.textContent = name;
-  
   openModal(popupTypeImage);
-}
+};
 
 initialCards.forEach((item) => {
-  renderCard(createCard(item, handleDeleteCard, openImageModal, likeCard))
-})
+  renderCard(createCard(item, handleDeleteCard, openImageModal, likeCard));
+});
 
 function handleProfileFormSubmit(item) {
     item.preventDefault(); 
-    profileName.textContent = nameInput.value 
-    profileDescription.textContent = jobInput.value
+    profileName.textContent = nameInput.value ;
+    profileDescription.textContent = jobInput.value;
     const popup = item.target.closest('.popup');
-    popup.classList.remove('popup_is-opened');
-    closeModal(popup)
+    closePopup(popup);
+    handleСloseModal(popup);
 }
 
 function handlePlaceFormSubmit(item) {
@@ -95,9 +94,9 @@ function handlePlaceFormSubmit(item) {
       name: placeName, 
       link: placeLink
     };
-    addCard(createCard(imgObg, handleDeleteCard, openImageModal, likeCard))
-    placeForm.reset()
+    addCard(createCard(imgObg, handleDeleteCard, openImageModal, likeCard));
+    placeForm.reset();
     const popup = item.target.closest('.popup');
-    popup.classList.remove('popup_is-opened');
-    closeModal(popup)
+    closePopup(popup);
+    handleСloseModal(popup);
 }
