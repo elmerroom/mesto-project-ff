@@ -25,13 +25,4 @@ function createCard(cardNumber, delateItem, openImg, likeButtons) {
   return card
 };
 
-// @todo: Функция удаления карточки
-
-
-
-// @todo: Вывести карточки на страницу
-
-// @todo: Добавление карточки на страницу
-
-
 export {createCard}

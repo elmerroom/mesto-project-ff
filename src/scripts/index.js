@@ -1,8 +1,8 @@
 import '../pages/index.css';
-import {createCard} from '../scripts/card.js';
+import {createCard} from './card.js';
 import { initialCards } from "./cards.js";
-import { openModal, handleСloseModal, closePopup} from './modal.js';
-import { resetsEditModal } from './RecurringFunc';
+import { openPopup, closePopup} from './modal.js';
+import { resetEditModal } from './resetEditModal.js';
 
 
 const placesList = document.querySelector('.places__list');
@@ -58,19 +58,19 @@ formElement.addEventListener('submit', handleProfileFormSubmit);
 placeForm.addEventListener('submit', handlePlaceFormSubmit);
 
 addButton.addEventListener('click', () => {
-  openModal(popupNewCard);
+  openPopup(popupNewCard);
 });
 
 editButton.addEventListener('click', () => {
-  resetsEditModal();
-  openModal(popupEdit);
+  resetEditModal();
+  openPopup(popupEdit);
 });
 
 function openImageModal(name, link) {
   popupImg.src = link;
   popupImg.alt = name;
   popupCaption.textContent = name;
-  openModal(popupTypeImage);
+  openPopup(popupTypeImage);
 };
 
 initialCards.forEach((item) => {
@@ -83,7 +83,6 @@ function handleProfileFormSubmit(item) {
     profileDescription.textContent = jobInput.value;
     const popup = item.target.closest('.popup');
     closePopup(popup);
-    handleСloseModal(popup);
 }
 
 function handlePlaceFormSubmit(item) {
@@ -98,5 +97,4 @@ function handlePlaceFormSubmit(item) {
     placeForm.reset();
     const popup = item.target.closest('.popup');
     closePopup(popup);
-    handleСloseModal(popup);
 }
