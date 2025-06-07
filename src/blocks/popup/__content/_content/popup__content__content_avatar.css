@@ -1,0 +1,12 @@
+.popup__content__content_avatar {
+  min-height: 0px;
+}
+
+
+.popup__content__content_avatar .popup__title {
+  margin-bottom: 34px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+}
