@@ -1,6 +1,3 @@
-import '../pages/index.css';
-import { Update } from './index';
-
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/wff-cohort-39',
   headers: {
@@ -9,44 +6,25 @@ const config = {
   }
 }
 
+function getResponseData(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
+
 function getCards() {
   return fetch(`${config.baseUrl}/cards`, {
   headers: config.headers
 })
-  .then(res => {
-    if (res.ok) {
-        return res.json();
-      }
-
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
-  .then((result) => {
-    return result
-  })
-  .catch((err) => {
-    console.error('Ошибка:', err); 
-    return Promise.reject(err)
-  });
+  .then(getResponseData);
 }
 
 function getProfile() {
   return fetch(`${config.baseUrl}/users/me`, {
   headers: config.headers
 })
-  .then(res => {
-    if (res.ok) {
-        return res.json();
-      }
-
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
-  .then((result) => {
-    return result
-  })
-  .catch((err) => {
-    console.error('Ошибка:', err); 
-    return Promise.reject(err)
-  });
+  .then(getResponseData);
 }
 
 function editProfilePatch(nameProfile, aboutProfile) {
@@ -58,16 +36,7 @@ function editProfilePatch(nameProfile, aboutProfile) {
     about: aboutProfile
   })
 })
-  .then(res => {
-    if (!res.ok) {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-      return res.json();
-    })
-  .catch((err) => {
-  console.error('Ошибка:', err); 
-  return Promise.reject(err)
-  });
+  .then(getResponseData);
 }
 
 function addNewCards(placeName, placeLink) {
@@ -79,16 +48,7 @@ function addNewCards(placeName, placeLink) {
     link: placeLink,
   })
 })
-  .then(res => {
-    if (!res.ok) {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-      return res.json();
-    })
-  .catch((err) => {
-  console.error('Ошибка:', err); 
-  return Promise.reject(err)
-  });
+  .then(getResponseData);
 }
 
 function delateCards(id) {
@@ -96,63 +56,24 @@ function delateCards(id) {
   method: 'DELETE',
   headers: config.headers
 })
-  .then(res => {
-    if (!res.ok) {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-      return res.json();
-    })
-  .catch((err) => {
-  console.error('Ошибка:', err); 
-  return Promise.reject(err)
-  })
-  .then(Update);
+ .then(getResponseData);
 }
 
-function likeCard(like, id) {
-  const card = like.closest('.card');
-  const likeReducer = card.querySelector('.card__like-reducer');
-  const activeLike = like.classList.contains('card__like-button_is-active');
-
-  if(activeLike) {
+function likeCard(id, isLiked) {
+ 
+  if(isLiked) {
     return fetch(`${config.baseUrl}/cards/likes/${id}`, {
       method: 'DELETE',
       headers: config.headers
     })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Ошибка при обновлении лайка');
-      }
-      return res.json();
-    })
-    .then(updatedCard => {
-      like.classList.toggle('card__like-button_is-active');
-      likeReducer.textContent = updatedCard.likes.length;
-    })
-    .catch(err => {
-      console.error('Ошибка:', err);
-      return Promise.reject(err)
-    })
-  } else {
-    return fetch(`${config.baseUrl}/cards/likes/${id}`, {
-      method: 'PUT',
-      headers: config.headers
-    })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Ошибка при обновлении лайка');
-      }
-      return res.json();
-    })
-    .then(updatedCard => {
-      like.classList.toggle('card__like-button_is-active');
-      likeReducer.textContent = updatedCard.likes.length;
-    })
-    .catch(err => {
-      console.error('Ошибка:', err);
-      return Promise.reject(err)
-    })
-  }
+    .then(getResponseData);
+    } else {
+      return fetch(`${config.baseUrl}/cards/likes/${id}`, {
+        method: 'PUT',
+        headers: config.headers
+      })
+      .then(getResponseData);
+    }
 }
 
 function editAvatar(url) {
@@ -163,16 +84,15 @@ function editAvatar(url) {
       avatar: url
     })
 })
- .then(res => {
-    if (!res.ok) {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-      return res.json();
-    })
-  .catch((err) => {
-  console.error('Ошибка:', err); 
-  return Promise.reject(err)
-  });
+ .then(getResponseData);
 }
 
-export { editAvatar, likeCard, delateCards, addNewCards, editProfilePatch, getProfile, getCards}
+function fetchAllData() {
+  return Promise.all([getCards(), getProfile()])
+    .then(([cards, profile]) => ({
+      cards,
+      profile
+    }));
+}
+
+export { editAvatar, likeCard, delateCards, addNewCards, editProfilePatch, getProfile, getCards, fetchAllData}
