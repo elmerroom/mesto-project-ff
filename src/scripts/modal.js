@@ -1,10 +1,20 @@
 import '../pages/index.css';
+import { validationConfig, clearValidation } from './validation';
 
 function closePopup(popup) {
   popup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', handleEscape);
   popup.removeEventListener('mousedown', closeModalOverlay);
-  popup.querySelector('.popup__close').removeEventListener('click', handleCloseModal)
+  popup.querySelector('.popup__close').removeEventListener('click', handleCloseModal);
+  // const inputList = Array.from(popup.querySelectorAll('.popup__input'))
+  // inputList.forEach((item) => {
+  //   hideInputError(popup, item, {
+  //     inputErrorClass: 'popup__input_type_error',    
+  //     errorClass: 'popup__input-error_active'
+  //   })
+  // })
+  // const form = popup.querySelector('.popup__form');
+  // clearValidation(form, validationConfig);
 }
 
 function openPopup(popup) {

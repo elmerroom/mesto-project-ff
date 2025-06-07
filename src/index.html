@@ -14,7 +14,7 @@
   </header>
   <main class="content">
     <section class="profile page__section">
-      <div class="profile__image" style ="background-image: url(<%=require('../images/avatar.jpg')%>)"></div>
+      <div class="profile__image" style="background-image: url(<%=require('../images/avatar.jpg')%>)"></div>
       <div class="profile__info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
         <button class="profile__edit-button" type="button"></button>
@@ -37,8 +37,27 @@
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
       <form class="popup__form" name="edit-profile">
-        <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required>
-        <input type="text" name="description" class="popup__input popup__input_type_description" placeholder="Занятие" required>
+        <label class="popup__field">
+          <input id="name__input" type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required minlength="2" maxlength="40" pattern="^[a-zA-Zа-яА-ЯёЁ \-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+          <span class="name__input-error popup__input-error"></span>
+        </label>
+        <label class="popup__field">
+          <input id="description__input" type="text" name="description" class="popup__input popup__input_type_description" placeholder="Занятие" required minlength="2" maxlength="200" pattern="^[a-zA-Zа-яА-ЯёЁ \-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+          <span class="description__input-error popup__input-error"></span>
+        </label>
+        <button type="submit" class="button popup__button">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_type_avatar popup_is-animated">
+    <div class="popup__content popup__content__content_avatar">
+      <button type="button" class="popup__close"></button>
+      <h3 class="popup__title">Обновить аватар</h3>
+      <form class="popup__form" name="edit-avatar">
+       <label class="popup__field">
+          <input id="url__input" type="url" name="link-avatar" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
+          <span class="url__input-error popup__input-error"></span>
+        </label>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
@@ -48,8 +67,15 @@
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Новое место</h3>
       <form class="popup__form" name="new-place">
-        <input type="text" name="place-name" class="popup__input popup__input_type_card-name" placeholder="Название" required>
-        <input type="url" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
+        <label class="popup__field">
+          <input id="card-name__input" type="text" name="place-name" class="popup__input popup__input_type_card-name" placeholder="Название" required minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-ЯёЁ \-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+          <span class="card-name__input-error popup__input-error"></span>
+        </label>
+        <label class="popup__field">
+          <input id="url__input" type="url" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
+          <span class="url__input-error popup__input-error"></span>
+        </label>
+        
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
@@ -71,7 +97,10 @@
     <div class="card__description">
       <h2 class="card__title">
       </h2>
-      <button type="button" class="card__like-button"></button>
+      <div class="card__like-sector">
+        <button type="button" class="card__like-button"></button>
+        <span class="card__like-reducer"></span>
+      </div>   
     </div>
   </li>
 </template>

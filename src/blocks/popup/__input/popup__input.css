@@ -8,11 +8,36 @@
   box-sizing: border-box;
   padding: 10px 0 0;
   margin-bottom: 10px;
+  /* position: relative; */
 }
 
 .popup__input:last-of-type {
   margin-bottom: 0;
 }
+
+/* .popup__input:invalid {
+   border-bottom: 1px solid red;
+} */
+
+.popup__input-error {
+  font-size: 12px;
+  color: #F00;;
+  opacity: 0;
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  transition: 0.3s;
+}
+
+.popup__input-error_active {
+  opacity: 1;
+}
+
+.popup__input_type_error {
+  border-bottom-color: #F00;
+  /* Нижняя рамка становится красной всякий раз, 
+  когда введённые данные некорректны */
+} 
 
 @media screen and (max-width: 568px) {
   .popup__title {

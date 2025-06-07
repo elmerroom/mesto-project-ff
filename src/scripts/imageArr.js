@@ -9,6 +9,7 @@ import editIcon from '../../images/edit-icon.svg';
 import likeActive from '../../images/like-active.svg';
 import likeInactive from '../../images/like-inactive.svg';
 import logo from '../../images/logo.svg';
+import Vector from '../../images/Vector.svg'
 
 
 export const whoIsTheGoat = [
@@ -24,4 +25,5 @@ export const whoIsTheGoat = [
   { name: 'likeActive', link: likeActive },
   { name: 'likeInactive', link: likeInactive },
   { name: 'logo', link: logo },
+  { name: 'Vector', link: Vector}
 ]; 
