@@ -2,7 +2,9 @@
 const cardTemplate = document.querySelector('#card-template').content;
 
 // @todo: Функция создания карточки
-function createCard(cardNumber, openImg, delateItem, likeCard, likesArray, authorLike, cardId, authorId, updateCallback) {
+function createCard(cardNumber, openImg, delateCard, likeCard, likesArray, isAuthor, cardId, authorId, 
+  // updateCallback
+) {
   const card = cardTemplate.querySelector('.places__item').cloneNode(true);
   const cardImage = card.querySelector('.card__image');
   const cardTitle = card.querySelector('.card__title');
@@ -20,10 +22,10 @@ function createCard(cardNumber, openImg, delateItem, likeCard, likesArray, autho
   cardImage.src = cardNumber.link;
   cardImage.alt = `Пейзах местности ${cardNumber.name}`;
 
-  if (authorLike) {
+  if (isAuthor) {
      delateButton.addEventListener('click', () => {
-    delateItem(cardId)
-    .then(updateCallback)
+    delateCard(cardId)
+    .then(() => card.remove())
     .catch(err => console.error('Ошибка:', err));
   });
   } else {
